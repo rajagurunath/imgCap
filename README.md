@@ -15,4 +15,4 @@ Flickr_8k dataset
 ## [exploring_hidden_CNN layers](https://colab.research.google.com/github/rajagurunath/imgCap/blob/master/modelzoo.ipynb)
 
 
-##[explanations](https://colab.research.google.com/github/rajagurunath/imgCap/blob/master/explanation.ipynb)
+## [explanations](https://colab.research.google.com/github/rajagurunath/imgCap/blob/master/explanation.ipynb)
