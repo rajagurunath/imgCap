@@ -1,0 +1,142 @@
+
+
+decoder
+fc layer
+
+Training
+Training the models which are different from each other(CNN and RNN) was difficult,
+and while training we faced memory issues ,therefore we made the image features and text features  separately  
+and merged the features using the fully conected layers ,therby escaping the memory issue
+
+prediction
+
+at prediction time ,When a new image was passed to our network ,our image featurizer (VGG16) produces the
+features and we pass START_SEQ to our text featurizer, thereby we have image and text features ,and our model 
+produces the text output and this text output again passed as input into the text encoder model
+this continues until the model produces the END_SEQ
+
+
+Experiments
+Trail 1: (ludwig_notebook)
+Training the image ,text ,and combiner models in a one shot :
+	challenges:
+		Not able to fit the model in System/machine RAM thereby we are not able to train the models 
+		
+Trail 2: (keras )
+
+KERAS network
+
+Training the image ,text and combiners separately which means
+	We will get image features from the VGG16 and save those results to Machine's Disk
+	We will then train the text features using captions from the dataset and serializes to the Disk
+	we then load the two models and train the Fully connected Decoder which produces the output
+
+	
+Trail 3 : kerasv0.1
+	Challenges:
+	===========
+	Even though we trained the model separately,sometimes we are facing memory issue according to the
+	load of the machine
+	
+	after some point of time we identified this is happening due to Loading entire dataset (all 8k images)
+	at once into the System memory(RAM) results in system crash
+	
+	Remeady :
+	Instead of the loading the entire dataset ,we used python iterator/generator which is kind of lazy loading 
+	which loads the bacth of ,say 32 images and captions pairs ,trains the model and loads the other
+	set of pairs(image and captions)
+	
+	
+	
+	We used keras handy function to train the model in batch process which is Fit_generator which 
+	takes input directly from the python generator
+
+	
+
+Tensorboard visualizations:
+
+
+	
+	
+Wrong and correct prediction
+
+Image Explanations
+
+To have the deeper understanding of the network , I tried to understand whats happening in the 
+each hidden layers of the network
+
+We are using Image and Text encoder networks which are completely black box
+There are some frameworks /techniques to understand the interior of the neural network
+
+Explanation Trail 1:
+	We tried exploring the different techniques such as Gradient explainer from SHAP,
+	LIME explainer etc but one thing which worked for us was the framework called lucid which is realeased
+	by the google
+	(we read this amazing blog post from https://distill.pub/2018/building-blocks/) and tried to use the 
+	framework for our Image network
+	
+	We explored layer by layer for the VGG16 ,respective layer weights visualizations was attached with 
+	this report
+	
+	
+
+Text Explanation
+	We try to identify the text encoder also , we read out the word embedings visualizations from 
+	the tensorflow website (https://www.tensorflow.org/tutorials/representation/word2vec)
+	
+	
+	
+
+layer wise visualizations
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
